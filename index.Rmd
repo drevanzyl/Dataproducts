@@ -11,6 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Index
 
-* [R Markdown and Leaflet](https://drevanzyl.github.io/Dataproducts/R_Markdown_and_Leaflet)
+* [**R Markdown and Leaflet**](https://drevanzyl.github.io/Dataproducts/R_Markdown_and_Leaflet)
 
 
