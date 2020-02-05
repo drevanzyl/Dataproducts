@@ -2,7 +2,20 @@
 title: "Dataproducts"
 author: "André van Zyl"
 date: "2/5/2020"
-output: html_document
+output:
+  html_document:
+    code_folding: show
+    css: my.css
+    df_print: paged
+    number_sections: yes
+    theme: darkly
+    toc: no
+    toc_depth: 4
+    toc_float: no
+  word_document:
+    toc: no
+    toc_depth: '4'
+  always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
@@ -11,6 +24,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Index
 
-* [R Markdown and Leaflet](https://drevanzyl.github.io/Dataproducts/R_Markdown_and_Leaflet)
+* [**R Markdown and Leaflet**](https://drevanzyl.github.io/Dataproducts/R_Markdown_and_Leaflet)
 
 
