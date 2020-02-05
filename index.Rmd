@@ -26,4 +26,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## [**R Markdown and Leaflet**](https://drevanzyl.github.io/Dataproducts/R_Markdown_and_Leaflet.html)
 
+## [**R Markdown Presentation & Plotly**](https://drevanzyl.github.io/Dataproducts/R_Markdown_Presentation_and_Plotly.html)
+
 
