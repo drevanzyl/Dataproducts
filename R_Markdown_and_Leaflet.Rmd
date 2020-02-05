@@ -1,0 +1,31 @@
+---
+title: "R Markdown and Leaflet"
+author: "André van Zyl"
+date: "2/5/2020"
+output:
+  html_document:
+    code_folding: show
+    css: my.css
+    df_print: paged
+    number_sections: yes
+    theme: darkly
+    toc: yes
+    toc_depth: 4
+    toc_float: no
+  word_document:
+    toc: no
+    toc_depth: '4'
+  always_allow_html: true
+---
+
+
+
+```{r}
+library(leaflet)
+df <- data.frame(lat = runif(20, min = -31, max = -30),
+                 lng = runif(20, min = ,22.5, max = 23))
+
+df %>% leaflet() %>%
+        addTiles() %>%
+        addMarkers()
+```
