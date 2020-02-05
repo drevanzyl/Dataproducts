@@ -20,7 +20,7 @@ output:
 
 
 
-```{r}
+```{r fig.width=20}
 library(leaflet)
 df <- data.frame(lat = runif(20, min = -31, max = -30),
                  lng = runif(20, min = ,22.5, max = 23))
