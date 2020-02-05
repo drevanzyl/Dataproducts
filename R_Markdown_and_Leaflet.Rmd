@@ -29,3 +29,9 @@ df %>% leaflet() %>%
         addTiles() %>%
         addMarkers()
 ```
+
+
+---
+output:
+
+---
