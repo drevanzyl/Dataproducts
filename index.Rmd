@@ -7,7 +7,7 @@ output:
     code_folding: show
     css: my.css
     df_print: paged
-    number_sections: yes
+    number_sections: no
     theme: darkly
     toc: no
     toc_depth: 4
@@ -22,8 +22,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Index
+# Index
 
-* [**R Markdown and Leaflet**](https://drevanzyl.github.io/Dataproducts/R_Markdown_and_Leaflet)
+## [**R Markdown and Leaflet**](https://drevanzyl.github.io/Dataproducts/R_Markdown_and_Leaflet.html)
 
 
