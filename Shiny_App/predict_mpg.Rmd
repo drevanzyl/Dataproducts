@@ -1,0 +1,174 @@
+---
+title: "Predict MPG"
+author: "André van Zyl"
+date: "2/5/2020"
+output: html_document
+---
+
+# Libraries
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(DataExplorer)
+library(caret)
+library(knitr)
+data("mtcars")
+```
+
+# Data
+
+## Existing data
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+data("mtcars")
+mtcars$carname <- rownames(mtcars)
+mtcars$vs <- factor(mtcars$vs,levels = c(0,1),labels = c("V-shaped", "Straight")) 
+mtcars$am <- factor(mtcars$am,levels = c(0,1),labels = c("Automatic", "Manual")) 
+mtcars$cyl <- ordered(mtcars$cyl)
+mtcars$gear <- ordered(mtcars$gear)
+mtcars$carb <- ordered(mtcars$carb)
+
+library(Hmisc)
+label(mtcars$carname) <- "Car name"
+label(mtcars$mpg) <- "Miles/(US) gallon"
+label(mtcars$cyl) <- "Number of cylinders"
+label(mtcars$disp) <- "Displacement (cu.in.)"
+label(mtcars$hp) <- "Gross horsepower"
+label(mtcars$drat) <- "Rear axle ratio"
+label(mtcars$wt) <- "Weight (1000 lbs)"
+label(mtcars$qsec) <- "1/4 mile time"
+label(mtcars$vs) <- "Engine"
+label(mtcars$am) <- "Transmission"
+
+label(mtcars$gear) <- "Number of forward gears"
+label(mtcars$carb) <- "Number of carburetors"
+```
+
+```{r}
+summary(mtcars)
+```
+
+
+## Prediction Data
+
+```{r}
+predict_data <- tibble::tribble(
+        ~cyl, ~disp, ~hp, ~drat, ~wt, ~qsec, ~vs, ~am, ~gear, ~carb,
+          4L,   99L, 55L,    5L,  30L,   20L,  1L,  1L,    5L,    8L
+        )
+
+        
+```
+
+
+```{r}
+data("mtcars")
+preProcValues  <- preProcess(
+  mtcars %>% select(-"mpg"),
+  method = c("center", # subtract mean from values.
+             "scale", # divide values by standard deviation.
+             "zv", # remove attributes with a zero variance (all the same value).
+             "nzv",# remove attributes with a near zero variance (close to the same value).
+             "pca"),# transform data to the principal components.
+  thresh = 1, # the cutoff for the cumulative percent of variance to be retained by PCA
+  pcaComp = NULL,
+  na.remove = TRUE,
+  k = 5,
+  knnSummary = mean,
+  outcome = NULL,
+  fudge = 0.2,
+  numUnique = 3,
+  verbose = FALSE,
+  freqCut = 95 / 5,
+  uniqueCut = 10,
+  cutoff = 0.9,
+  rangeBounds = c(0, 1)
+)
+```
+
+
+
+
+```{r}
+data("mtcars")
+mtcars_transformed  <- predict(preProcValues, mtcars %>% select(-"mpg"))
+mtcars_transformed$mpg <- mtcars$mpg
+predict_data_transformed <- predict(preProcValues, predict_data)
+```
+
+
+```{r echo=TRUE}
+tr_ctrl <- trainControl(method="cv", number=5, verboseIter=FALSE)
+rfmodel <- train(mpg~., data=mtcars_transformed, method="ranger",
+                 trControl = tr_ctrl)
+
+rfmodel
+```
+
+
+
+
+```{r}
+rf_predicion <- predict(rfmodel, newdata=predict_data_transformed)
+rf_predicion
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+data("mtcars")
+mtcars$carname <- rownames(mtcars)
+mtcars$vs <- factor(mtcars$vs,levels = c(0,1),labels = c("V-shaped", "Straight")) 
+mtcars$am <- factor(mtcars$am,levels = c(0,1),labels = c("Automatic", "Manual")) 
+mtcars$cyl <- ordered(mtcars$cyl)
+mtcars$gear <- ordered(mtcars$gear)
+mtcars$carb <- ordered(mtcars$carb)
+
+library(Hmisc)
+label(mtcars$carname) <- "Car name"
+label(mtcars$mpg) <- "Miles/(US) gallon"
+label(mtcars$cyl) <- "Number of cylinders"
+label(mtcars$disp) <- "Displacement (cu.in.)"
+label(mtcars$hp) <- "Gross horsepower"
+label(mtcars$drat) <- "Rear axle ratio"
+label(mtcars$wt) <- "Weight (1000 lbs)"
+label(mtcars$qsec) <- "1/4 mile time"
+label(mtcars$vs) <- "Engine"
+label(mtcars$am) <- "Transmission"
+label(mtcars$gear) <- "Number of forward gears"
+label(mtcars$carb) <- "Number of carburetors"
+```
+
+
+```{r echo=FALSE, fig.height=7, fig.width=12, message=FALSE, warning=FALSE}
+
+
+library(gridExtra)
+
+
+grid.arrange(
+  ggplot(mtcars,
+         aes(
+           x = reorder(carname, -mpg),
+           y = mpg,
+           group = am,
+           fill = am
+         )) +
+    geom_boxplot(alpha = .7) +
+    geom_point(aes(color = am), size = 3) +
+    coord_flip()  +
+    theme_minimal() +
+    xlab("") +
+    ylab("Miles/(US) gallon") +
+    geom_hline(
+      yintercept = rf_predicion,
+      show.legend = TRUE,
+      size = 1,
+      color = "red"
+    ) +
+    facet_grid() + geom_text(aes(
+      label = paste(carname, " : " , mpg, " MPG", sep = "")
+    ), size = 4, hjust = "inward")
+) 
+```
+

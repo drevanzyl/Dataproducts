@@ -1,0 +1,12 @@
+name: Shiny_App
+title: Predict MPG
+username:
+account: andre-van-zyl
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1773000
+bundleId: 2780488
+url: https://andre-van-zyl.shinyapps.io/Shiny_App/
+when: 1581018533.57288
+asMultiple: FALSE
+asStatic: FALSE
