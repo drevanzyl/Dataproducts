@@ -1,7 +1,6 @@
 ---
 title: "Dataproducts"
 author: "André van Zyl"
-date: "2/5/2020"
 output:
   html_document:
     code_folding: show
@@ -18,6 +17,8 @@ output:
   always_allow_html: true
 ---
 
+Date: `r Sys.Date()` 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -28,4 +29,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## [**R Markdown Presentation & Plotly**](https://drevanzyl.github.io/Dataproducts/R_Markdown_Presentation_and_Plotly.html)
 
+## [**Slidify Presentation**](https://drevanzyl.github.io/Dataproducts/Shiny_App/Predict_MPG_Web_App.html)
 
+## [**Predict MPG Shiny Web App**](https://andre-van-zyl.shinyapps.io/Shiny_App/)
